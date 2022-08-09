@@ -43,7 +43,6 @@ export default {
 .common-form-container {
   display: flex;
   flex-direction: column;
-  height: 50%;
   width: 50%;
   border: 1px solid black;
   padding: 15px;

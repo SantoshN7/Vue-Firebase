@@ -1,5 +1,19 @@
-<script setup>
+<script>
+  import {getAuth, onAuthStateChanged } from 'firebase/auth';
   import NavBar from './components/NavBar.vue';
+
+  export default {
+    components: {
+      NavBar
+    },
+    beforeMount() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        const newAuth = user?.auth || auth;
+        this.$store.commit('setAuth', newAuth);
+      });
+    }
+  }
 </script>
 
 <template>

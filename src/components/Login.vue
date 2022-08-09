@@ -3,16 +3,16 @@
 </template>
 
 <script>
+import {signInWithEmailAndPassword} from 'firebase/auth';
 import CommonForm from './CommonForm.vue';
   export default {
-    inject: ['firebase','firebaseAuth'],
     components: {
       CommonForm
     },
     methods: {
       onSubmit(user) {
-        this.firebase.signInWithEmailAndPassword(this.firebaseAuth, user.email, user.password)
-        .then((data) => {
+        signInWithEmailAndPassword(this.$store.state.auth, user.email, user.password)
+        .then(() => {
           this.$router.push('/');
         }).catch((error) => console.error('Failed to login user.', error.message));
       }

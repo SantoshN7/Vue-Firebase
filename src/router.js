@@ -1,12 +1,14 @@
 import { createWebHistory, createRouter } from 'vue-router';
-import Home from './components/Home.vue';
+import Coaches from './components/Coaches.vue';
+import CoacheDetails from './components/CoachDetails.vue';
+import Requests from './components/Requests.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
 
 const routes = [
   {
     path: '/',
-    component: Home
+    redirect: '/coaches'
   },
   {
     path: '/login',
@@ -15,6 +17,18 @@ const routes = [
   {
     path: '/register',
     component: Register
+  },
+  {
+    path: '/coaches',
+    component: Coaches
+  },
+  {
+    path: '/coaches/:id',
+    component: CoacheDetails
+  },
+  {
+    path: '/requests',
+    component: Requests
   }
 ];
 

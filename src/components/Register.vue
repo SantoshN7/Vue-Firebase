@@ -3,18 +3,17 @@
 </template>
 
 <script>
+import {createUserWithEmailAndPassword} from 'firebase/auth';
 import CommonForm from './CommonForm.vue';
   export default {
-    inject: ['firebase','firebaseAuth'],
     components: {
       CommonForm
     },
     methods: {
       onSubmit(user) {
-        console.log(user)
-        this.firebase.createUserWithEmailAndPassword(this.firebaseAuth, user.email, user.password)
-        .then((data) => {
-          this.$router.push('/login');
+        createUserWithEmailAndPassword(this.$store.state.auth, user.email, user.password)
+        .then(() => {
+          this.$router.push('/');
         }).catch((error) => console.error('Failed to register new user.', error.message));
       }
     }
