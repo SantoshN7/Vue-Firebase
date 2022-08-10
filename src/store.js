@@ -1,4 +1,7 @@
 import { createStore } from "vuex";
+import { BehaviorSubject } from 'rxjs';
+
+export const isAuthSet = new BehaviorSubject(false);
 
 export const vuestore = createStore({
   state() {
@@ -9,6 +12,7 @@ export const vuestore = createStore({
   mutations: {
     setAuth(state, auth) {
       state.auth = auth;
+      isAuthSet.next(true);
     }
   }
 });

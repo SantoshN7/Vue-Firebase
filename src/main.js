@@ -5,6 +5,6 @@ import {vuestore} from './store';
 import './firebaseSetup';
 
 createApp(App)
-.use(vueRouter)
 .use(vuestore)
+.use(vueRouter)
 .mount('#app')

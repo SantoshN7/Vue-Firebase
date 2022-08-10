@@ -39,7 +39,7 @@ import {useRouter} from "vue-router";
 
     const logout = function() {
       signOut(store.state.auth).then(() => {
-        router.push('/');
+        router.push('/login');
       })
     }
 

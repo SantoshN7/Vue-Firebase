@@ -6,20 +6,28 @@
     components: {
       NavBar
     },
+    data() {
+      return {
+        isLoading: true
+      }
+    },
     beforeMount() {
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         const newAuth = user?.auth || auth;
         this.$store.commit('setAuth', newAuth);
+        this.isLoading = false;
       });
     }
   }
 </script>
 
 <template>
-  <NavBar></NavBar>
-  <div class="viewer">
-    <router-view></router-view>
+  <div v-show="!isLoading">
+    <NavBar></NavBar>
+    <div class="viewer">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
