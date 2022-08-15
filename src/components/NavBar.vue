@@ -2,7 +2,7 @@
   <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-ligh">
     <ul class="navbar-nav mr-auto">
       <li v-if="isUserAuthenticated" class="nav-item">
-        <router-link class="nav-link" to="/coaches">Coaches</router-link>
+        <router-link class="nav-link" to="/courses">Courses</router-link>
       </li>
       <li v-if="isUserAuthenticated" class="nav-item">
         <router-link class="nav-link" to="/requests">Requests</router-link>
@@ -22,7 +22,8 @@
 
 <style>
   nav {
-    border: 1px solid black;
+    border: 2px solid black;
+    box-shadow: 5px 2.5px 2.5px gray;
   }
 </style>
 

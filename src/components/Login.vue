@@ -4,7 +4,7 @@
 
 <script>
 import {signInWithEmailAndPassword} from 'firebase/auth';
-import CommonForm from './CommonForm.vue';
+import CommonForm from './base-ui/CommonForm.vue';
   export default {
     components: {
       CommonForm

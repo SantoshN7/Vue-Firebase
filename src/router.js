@@ -1,7 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import {vuestore, isAuthSet} from './store';
-import Coaches from './components/Coaches.vue';
-import CoacheDetails from './components/CoachDetails.vue';
+import Courses from './components/Courses.vue';
 import Requests from './components/Requests.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
@@ -11,7 +10,7 @@ import { filter, map  } from 'rxjs/operators';
 const routes = [
   {
     path: '/',
-    redirect: '/coaches'
+    redirect: '/courses'
   },
   {
     name: 'Login',
@@ -23,13 +22,8 @@ const routes = [
     component: Register
   },
   {
-    path: '/coaches',
-    component: Coaches,
-    meta: { requiresAuth : true }
-  },
-  {
-    path: '/coaches/:id',
-    component: CoacheDetails,
+    path: '/courses',
+    component: Courses,
     meta: { requiresAuth : true }
   },
   {
