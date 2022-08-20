@@ -1,5 +1,7 @@
 <template>
-  <CommonForm title="Sign up" @onSubmit="onSubmit"></CommonForm>
+  <div class="fullpage">
+    <CommonForm title="Sign up" submit-text="Register" @onSubmit="onSubmit"></CommonForm>
+  </div>
 </template>
 
 <script>
@@ -19,4 +21,14 @@ import CommonForm from './base-ui/CommonForm.vue';
     }
   }
 </script>
+
+<style>
+  .fullpage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+</style>
 

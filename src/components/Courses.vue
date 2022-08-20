@@ -1,28 +1,34 @@
 <template>
-  <Card v-if="!!coursesList" v-for="course in coursesList" :key="course.id">
-    <Course :course="course"></Course>
-  </Card>
+  <div class="courses-list">
+    <Card class="course" v-if="!!coursesList" v-for="course in coursesList" :key="course.id">
+      <Course :course="course"></Course>
+    </Card>
+  </div>
 </template>
 
 <script>
-  import {ref} from 'vue';
+  import {computed} from 'vue';
+  import { useStore } from 'vuex'
   import Course from './Course.vue';
-  import { collection, getDocs } from "firebase/firestore";
-  import {firebasedb} from '../firebaseSetup'; 
   export default {
     components: {
       Course
     },
     setup() {
-      const coursesList = ref(null);
-      getDocs(collection(firebasedb, 'cources')).then((_snapshot) => {
-        coursesList.value = _snapshot.docs.map((doc) => {
-          return { id: doc.id, ...doc.data() }
-        });
-      });
+      const store = useStore();
+      const coursesList = computed(() => store.state.courses);
+      store.dispatch('loadCourses');
 
       return {coursesList};
     }
   }
 </script>
+
+<style>
+  .courses-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
 

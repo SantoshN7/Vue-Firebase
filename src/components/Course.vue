@@ -7,7 +7,7 @@
       </ul>
     </div>
     <div class="action-group">
-      <button type="button" class="btn btn-primary">Register</button>
+      <button type="button" class="btn btn-primary">Request</button>
     </div>
 </template>
 
