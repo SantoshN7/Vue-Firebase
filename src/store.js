@@ -1,7 +1,6 @@
 import { createStore } from "vuex";
 import { BehaviorSubject } from 'rxjs';
-import { collection, getDocs } from "firebase/firestore";
-import {firebasedb} from './firebaseSetup'; 
+import axios from 'axios'; 
 
 export const isAuthSet = new BehaviorSubject(false);
 
@@ -22,13 +21,13 @@ export const vuestore = createStore({
     }
   },
   actions: {
-    loadCourses() {
-      getDocs(collection(firebasedb, 'cources')).then((_snapshot) => {
-        const newCourses = _snapshot.docs.map((doc) => {
-          return { id: doc.id, ...doc.data() }
-        });
-        this.commit('setCourses', newCourses);
+    async loadCourses() {
+      const response = await axios.get('http://localhost:8080/api/courses', {
+        headers: {
+          'Authorization': `Bearer-${this.state.auth.currentUser.accessToken}`
+        }
       });
+      this.commit('setCourses', response.data);
     }
   }
 });

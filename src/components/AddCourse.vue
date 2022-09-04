@@ -38,7 +38,6 @@ import { firebasedb } from '../firebaseSetup';
       'owner-id': store.state.auth?.currentUser?.uid
     }
     addDoc(collection(firebasedb, 'cources'), data).then((_snapshot) => {
-      console.log(_snapshot);
       store.dispatch('loadCourses');
     }).finally(() => {
       emit('close');
