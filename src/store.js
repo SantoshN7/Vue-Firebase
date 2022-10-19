@@ -8,7 +8,8 @@ export const vuestore = createStore({
   state() {
     return {
       auth: null,
-      courses: []
+      courses: [],
+      requestedCourses: [],
     }
   },
   mutations: {
@@ -18,6 +19,9 @@ export const vuestore = createStore({
     },
     setCourses(state, courses) {
       state.courses = courses;
+    },
+    setRequestedCourses(state, requestedCourses) {
+      state.requestedCourses = requestedCourses;
     }
   },
   actions: {
@@ -28,6 +32,14 @@ export const vuestore = createStore({
         }
       });
       this.commit('setCourses', response.data);
+    },
+    async loadRequestedCourses() {
+      const response = await axios.get(`http://localhost:8080/api/user/${this.state.auth.currentUser.uid}/registeredCourses`, {
+        headers: {
+          'Authorization': `Bearer-${this.state.auth.currentUser.accessToken}`
+        }
+      });
+      this.commit('setRequestedCourses', response.data);
     }
   }
 });

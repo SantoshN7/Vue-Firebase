@@ -7,13 +7,13 @@
       </ul>
     </div>
     <div class="action-group">
-      <button type="button" class="btn btn-primary">Request</button>
+      <button v-if="!hideRequest" type="button" class="btn btn-primary">Request</button>
     </div>
 </template>
 
 <script>
 export default {
-  props: ['course']
+  props: ['course', 'hideRequest']
 }
 </script>
 
