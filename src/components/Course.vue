@@ -7,13 +7,28 @@
       </ul>
     </div>
     <div class="action-group">
-      <button v-if="!hideRequest" type="button" class="btn btn-primary">Request</button>
+      <button v-if="!hideRequest" type="button" class="btn btn-primary" @click="requestCourse()">Request</button>
     </div>
 </template>
 
 <script>
+import axios from 'axios'; 
 export default {
-  props: ['course', 'hideRequest']
+  props: ['course', 'hideRequest'],
+  methods: {
+    requestCourse() {
+      axios.post(`http://localhost:8080/api/user/${this.$store.state.auth.currentUser.uid}/registeredCourses`, 
+        {
+          'courseId': this.course.id,
+          'userId': this.$store.state.auth.currentUser.uid
+        }, 
+        {
+        headers: {
+          'Authorization': `Bearer-${this.$store.state.auth.currentUser.accessToken}`
+        }
+      });
+    }
+  }
 }
 </script>
 

@@ -1,11 +1,14 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const firebaseadmin = require('./firebaseConfig');
 const admin = require("firebase-admin");
 const {authMiddleware} = require('./middleware'); 
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 app.use(authMiddleware);
 
 app.get('/api/courses', async (req, res) => {
@@ -24,6 +27,18 @@ app.get('/api/user/:uid/registeredCourses', async (req, res) => {
     return { id: doc.id, ...doc.data() }
   });
   return res.send(courses);
+});
+
+app.post('/api/user/:uid/registeredCourses', async (req, res) => {
+  try {
+    await firebaseadmin.firestore().collection('user').doc(req.params.uid).collection('registeredCourses').add({
+      'courseId': req.body.courseId,
+      'userId': req.params.uid
+    });
+    return res.sendStatus(200)
+  } catch (error) {
+    return res.sendStatus(500)
+  }
 });
 
 const port = 8080; // Server running on port
