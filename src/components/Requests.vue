@@ -1,7 +1,7 @@
 <template>
   <div class="courses-list">
     <Card class="course" v-if="!!coursesList" v-for="course in coursesList" :key="course.id">
-      <Course :course="course" :hideRequest="true"></Course>
+      <Course :course="course" :hideRequest="true" :hideRemove="false"></Course>
     </Card>
   </div>
 </template>

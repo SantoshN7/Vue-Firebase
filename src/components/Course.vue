@@ -8,13 +8,14 @@
     </div>
     <div class="action-group">
       <button v-if="!hideRequest" type="button" class="btn btn-primary" @click="requestCourse()">Request</button>
+      <button v-if="!hideRemove" type="button" class="btn btn-danger" @click="removeCourse()">Remove</button>
     </div>
 </template>
 
 <script>
 import axios from 'axios'; 
 export default {
-  props: ['course', 'hideRequest'],
+  props: ['course', 'hideRequest', 'hideRemove'],
   methods: {
     requestCourse() {
       axios.post(`http://localhost:8080/api/user/${this.$store.state.auth.currentUser.uid}/registeredCourses`, 
@@ -26,6 +27,19 @@ export default {
         headers: {
           'Authorization': `Bearer-${this.$store.state.auth.currentUser.accessToken}`
         }
+      }).then(() => {
+        this.$router.push('/requests');
+      });
+    },
+    removeCourse() {
+      axios.delete(`http://localhost:8080/api/user/${this.$store.state.auth.currentUser.uid}/registeredCourses/${this.course.id}`, 
+        {
+          headers: {
+            'Authorization': `Bearer-${this.$store.state.auth.currentUser.accessToken}`
+          }
+        }
+      ).then(() => {
+        this.$store.dispatch('loadRequestedCourses');
       });
     }
   }

@@ -19,14 +19,29 @@ app.get('/api/courses', async (req, res) => {
   return res.send(courses);
 });
 
+app.post('/api/courses', async (req, res) => {
+  try {
+    await firebaseadmin.firestore().collection('cources').add({
+      ...req.body
+    });
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+});
+
 app.get('/api/user/:uid/registeredCourses', async (req, res) => {
   const query_snapshot = await firebaseadmin.firestore().collectionGroup('registeredCourses').where('userId', '==', req.params.uid).get();
   const courceIds = query_snapshot.docs.map((doc) => doc.data().courseId);
-  const registeredCourses_snapshot = await firebaseadmin.firestore().collection('cources').where(admin.firestore.FieldPath.documentId(), 'in', courceIds).get();
-  const courses = registeredCourses_snapshot.docs.map((doc) => {
-    return { id: doc.id, ...doc.data() }
-  });
-  return res.send(courses);
+  if (courceIds.length > 0) {
+    const registeredCourses_snapshot = await firebaseadmin.firestore().collection('cources').where(admin.firestore.FieldPath.documentId(), 'in', courceIds).get();
+    const courses = registeredCourses_snapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() }
+    });
+    return res.send(courses);
+  } else {
+    return res.send([]);
+  }
 });
 
 app.post('/api/user/:uid/registeredCourses', async (req, res) => {
@@ -35,6 +50,16 @@ app.post('/api/user/:uid/registeredCourses', async (req, res) => {
       'courseId': req.body.courseId,
       'userId': req.params.uid
     });
+    return res.sendStatus(200)
+  } catch (error) {
+    return res.sendStatus(500)
+  }
+});
+
+app.delete('/api/user/:uid/registeredCourses/:cid', async (req, res) => {
+  try {
+    const query_snapshot = await firebaseadmin.firestore().collection('user').doc(req.params.uid).collection('registeredCourses').where('courseId', '==', req.params.cid).get();
+    query_snapshot.forEach((doc) => doc.ref.delete());
     return res.sendStatus(200)
   } catch (error) {
     return res.sendStatus(500)

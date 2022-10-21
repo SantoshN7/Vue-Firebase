@@ -21,10 +21,9 @@
 </template>
 
 <script setup>
+import axios from 'axios';
 import { ref, defineEmits } from 'vue';
 import { useStore } from 'vuex'
-import { collection, addDoc } from "firebase/firestore";
-import { firebasedb } from '../firebaseSetup'; 
 
   const emit = defineEmits('close');
   const store = useStore();
@@ -32,12 +31,19 @@ import { firebasedb } from '../firebaseSetup';
   const skills = ref('');
   const onSubmit = () => {
     const skillsArray = skills.value.split(',').map((e) => e.trim());
-    const data = {
-      name: title.value,
-      skills: skillsArray,
-      'owner-id': store.state.auth?.currentUser?.uid
-    }
-    addDoc(collection(firebasedb, 'cources'), data).then((_snapshot) => {
+
+    axios.post(`http://localhost:8080/api/courses`, 
+      {
+        'name': title.value,
+        'skills': skillsArray,
+        'owner-id': store.state.auth?.currentUser?.uid
+      }, 
+      {
+      headers: {
+        'Authorization': `Bearer-${store.state.auth.currentUser.accessToken}`
+      }
+    })
+    .then(() => {
       store.dispatch('loadCourses');
     }).finally(() => {
       emit('close');

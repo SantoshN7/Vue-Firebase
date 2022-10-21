@@ -13,6 +13,7 @@
   .card {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     margin: 2rem;
     padding: 1rem;
     min-height: 200px;
